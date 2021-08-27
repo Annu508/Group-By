@@ -1,0 +1,20 @@
+#@purpose : to print spark core using group by
+#@concept : the idea is to write a basic code spark core using group by() and get min.
+#@Hashtag : #python #coding
+#@code
+
+import pyspark
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType,StructField, StringType, IntegerType, ArrayType
+from pyspark.sql.functions import col
+
+spark = SparkSession.builder.appName('Spark').getOrCreate()
+
+simpleData = [("Jones","Loan","Paris",85000,30,10000), \
+("Kush","Sales","UK",91000,50,21000) \
+]
+columns= ["employee_name","department","state","salary","age","bonus"]
+df = spark.createDataFrame(data = simpleData, schema = columns)
+df.printSchema()
+df.show(truncate=False)
+df.groupBy("department").min("salary").show()
